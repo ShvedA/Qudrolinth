@@ -1,0 +1,21 @@
+.table-board {
+    width: 360px;
+    height: 360px;
+}
+.table-board tr {
+    height: 40px;
+}
+.table-board td {
+    width: 40px;
+    text-align: center;
+}
+.table-board tr:not(:first-child) td:first-child,
+.table-board tr:not(:first-child) td:last-child {
+    border-right-color: black;
+    border-right-width: 2px;
+}
+.table-board tr:first-child td:not(:first-child),
+.table-board tr:last-child td:not(:first-child) {
+    border-bottom-color: black;
+    border-bottom-width: 2px;
+}
