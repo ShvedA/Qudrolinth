@@ -39,11 +39,9 @@ function showLabirinth() {
             }
             if (labirinth[row][0][col] == 1) {
                 td.className += " right-border";
-                //document.getElementById("secondTable").write("right-border");
             }
             if (labirinth[row][1][col] == 1) {
-                td.className += " bottom-border";
-                //document.getElementById("secondTable").write(" bottom-border");   
+                td.className += " bottom-border";   
             }
             tr.appendChild(td);
         }
@@ -51,4 +49,47 @@ function showLabirinth() {
     }
     table.appendChild(tbody);
     div.appendChild(table);
+}
+
+function makeEmptyTable() {
+    var div = document.getElementById("firstTable");
+    var table = document.createElement("table");
+    table.className = "table table-bordered table-board";
+    var tbody = document.createElement("tbody");
+    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for(var row = 0; row < labirinth.length; row++) {
+        var tr = document.createElement("tr");
+        for (var col = 0; col < labirinth[row][0].length; col++) {
+            var td = document.createElement("td");
+            if (row == 0 && col > 0) {
+                td.innerHTML=alphabet.charAt(col - 1);   
+            } else if (col == 0 && row > 0) {
+                td.innerHTML=row;   
+            } else if (col > 0 && row > 0) {
+                td.id = alphabet.charAt(col - 1) + "" + row;   
+            }
+            if (labirinth[row][0][col] == 1) {
+                if (col == 0 || col == labirinth.length - 1) {
+                    td.className += " right-border";
+                } else {
+                    td.className += " right-border-hidden";   
+                }
+            }
+            if (labirinth[row][1][col] == 1) {
+                if (row == 0 || row == labirinth.length - 1) {
+                    td.className += " bottom-border";   
+                } else {
+                    td.className += " bottom-border-hidden";
+                }
+            }
+            tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    div.appendChild(table);
+}
+
+function startFrom(letter, number) {
+       
 }

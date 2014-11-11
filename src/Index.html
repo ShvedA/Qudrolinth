@@ -17,113 +17,23 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6">
+            <div id="firstTable">
             <label>History (chosen?)</label>
 
-           <table class="table table-bordered table-board table-first">
-               <tr>
-                   <td></td>
-                   <td>A</td>
-                   <td>B</td>
-                   <td>C</td>
-                   <td>D</td>
-                   <td>E</td>
-                   <td>F</td>
-                   <td>G</td>
-                   <td>H</td>
-               </tr>
-               <tr>
-                   <td>1</td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-               </tr>
-               <tr>
-                   <td>2</td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-               </tr>
-               <tr>
-                   <td>3</td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-               </tr>
-               <tr>
-                   <td>4</td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-               </tr>
-               <tr>
-                   <td>5</td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-               </tr>
-               <tr>
-                   <td>6</td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-               </tr>
-               <tr>
-                   <td>7</td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-               </tr>
-               <tr>
-                   <td>8</td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-               </tr>
-           </table>
+            </div>
+            
+            <button class="btn">up</button>
+        
+            <button class="btn">left</button>
+            <button class="btn">down</button>
+            <button class="btn">right</button>
         </div>
-        <div class="col-md-4 col-sm-6" id="secondTable">
+        <div class="col-md-4 col-sm-6">
+            <div id="secondTable">
             <label>Whole labirinth</label>
+                
+            </div>
         </div>
     </div>
     <div class="row">
@@ -143,5 +53,7 @@
 </html>
 
 <script language="javascript">
-               showLabirinth();
-                </script>
+    makeEmptyTable();
+    showLabirinth();
+    startFrom('B',2);
+</script>

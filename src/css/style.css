@@ -21,3 +21,13 @@
     border-bottom-color: black !important;
     border-bottom-width: 2px !important;
 }
+.right-border-hidden {
+    border-right-color: grey !important;
+    border-right-style: dotted !important;
+    border-right-width: 2px !important;
+}
+.bottom-border-hidden {
+    border-bottom-color: grey !important;
+    border-bottom-style: dotted !important;
+    border-bottom-width: 2px !important;
+}
