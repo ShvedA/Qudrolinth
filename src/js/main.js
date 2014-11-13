@@ -58,17 +58,18 @@ function makeEmptyTable() {
     var table = document.createElement("table");
     table.className = "table table-bordered table-board";
     var tbody = document.createElement("tbody");
-    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY";
     for(var row = 0; row < labirinth.length; row++) {
         var tr = document.createElement("tr");
         for (var col = 0; col < labirinth[row][0].length; col++) {
             var td = document.createElement("td");
             if (row == 0 && col > 0) {
-                td.innerHTML=alphabet.charAt(col - 1);   
+                td.innerHTML=alphabet.charAt(col);   
             } else if (col == 0 && row > 0) {
                 td.innerHTML=row;   
-            } else if (col > 0 && row > 0) {
-                td.id = alphabet.charAt(col - 1) + row;   
+            }
+            if (!(col == 0 && row == 0)) {
+                td.id = alphabet.charAt(col) + row;   
             }
             if (labirinth[row][0][col] == 1) {
                 if (col == 0 || col == labirinth.length - 1) {
@@ -111,7 +112,49 @@ function moveRight() {
         playerOne = nextCellId;
     }
 }
-        
-function hasClass(element, cls) {
-    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+
+function moveDown() {
+    var startCell = $('#' + playerOne);
+    if (startCell.hasClass("bottom-border-hidden")) {
+        startCell.removeClass("bottom-border-hidden");
+        startCell.addClass("bottom-border");
+    } else if (!startCell.hasClass("bottom-border")) {
+        var nextCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) + 1);
+        var nextCell = $('#' + nextCellId);
+        startCell.html("");
+        nextCell.html('P1');
+        playerOne = nextCellId;
+    }
+}
+
+function moveLeft() {
+    var startCell = $('#' + playerOne);
+    if (playerOne.charAt(0) == 'A') {
+        var leftCellId = 'Z' + playerOne.charAt(1);   
+    } else {
+        var leftCellId = String.fromCharCode(playerOne.charCodeAt(0) - 1) + playerOne.charAt(1);
+    }
+    var leftCell = $('#' + leftCellId);
+    if (leftCell.hasClass("right-border-hidden")) {
+        leftCell.removeClass("right-border-hidden");
+        leftCell.addClass("right-border");
+    } else if (!leftCell.hasClass("right-border")) {
+        startCell.html("");
+        leftCell.html('P1');
+        playerOne = leftCellId;
+    }
+}
+
+function moveUp() {
+    var startCell = $('#' + playerOne);
+    var upCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) - 1);
+    var upCell = $('#' + upCellId);
+    if (upCell.hasClass("bottom-border-hidden")) {
+        upCell.removeClass("bottom-border-hidden");
+        upCell.addClass("bottom-border");
+    } else if (!upCell.hasClass("bottom-border")) {
+        startCell.html("");
+        upCell.html('P1');
+        playerOne = upCellId;
+    }
 }
