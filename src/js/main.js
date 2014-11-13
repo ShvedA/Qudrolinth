@@ -21,6 +21,8 @@ labirinth[7][1] = new Array(0,0,1,1,0,0,1,0,0);
 labirinth[8][0] = new Array(1,0,0,0,1,0,0,0,1);
 labirinth[8][1] = new Array(0,1,1,1,1,1,1,1,1);
 
+var playerOne = "";
+
 function showLabirinth() {
     var div = document.getElementById("secondTable");
     var table = document.createElement("table");
@@ -66,7 +68,7 @@ function makeEmptyTable() {
             } else if (col == 0 && row > 0) {
                 td.innerHTML=row;   
             } else if (col > 0 && row > 0) {
-                td.id = alphabet.charAt(col - 1) + "" + row;   
+                td.id = alphabet.charAt(col - 1) + row;   
             }
             if (labirinth[row][0][col] == 1) {
                 if (col == 0 || col == labirinth.length - 1) {
@@ -91,5 +93,25 @@ function makeEmptyTable() {
 }
 
 function startFrom(letter, number) {
-       
+    var startCell = document.getElementById(letter + number);
+    startCell.innerHTML = "P1";
+    playerOne = letter + number;
+}
+
+function moveRight() {
+    var startCell = $('#' + playerOne);
+    if (startCell.hasClass("right-border-hidden")) {
+        startCell.removeClass("right-border-hidden");
+        startCell.addClass("right-border");
+    } else if (!startCell.hasClass("right-border")) {
+        var nextCellId = String.fromCharCode(playerOne.charCodeAt(0) + 1) + playerOne.charAt(1);
+        var nextCell = $('#' + nextCellId);
+        startCell.html("");
+        nextCell.html('P1');
+        playerOne = nextCellId;
+    }
+}
+        
+function hasClass(element, cls) {
+    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }
