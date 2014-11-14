@@ -77,6 +77,8 @@ function makeEmptyTable() {
                 } else {
                     td.className += " right-border-hidden";   
                 }
+            } else if (col > 0 && row > 0) {
+                td.className += " right-no-border";   
             }
             if (labirinth[row][1][col] == 1) {
                 if (row == 0 || row == labirinth.length - 1) {
@@ -84,6 +86,8 @@ function makeEmptyTable() {
                 } else {
                     td.className += " bottom-border-hidden";
                 }
+            } else if (col > 0 && row > 0) {
+                td.className += " bottom-no-border";
             }
             tr.appendChild(td);
         }
@@ -105,6 +109,9 @@ function moveRight() {
         startCell.removeClass("right-border-hidden");
         startCell.addClass("right-border");
     } else if (!startCell.hasClass("right-border")) {
+        if (startCell.hasClass("right-no-border")) {
+            startCell.removeClass("right-no-border");  
+        }   
         var nextCellId = String.fromCharCode(playerOne.charCodeAt(0) + 1) + playerOne.charAt(1);
         var nextCell = $('#' + nextCellId);
         startCell.html("");
@@ -119,6 +126,9 @@ function moveDown() {
         startCell.removeClass("bottom-border-hidden");
         startCell.addClass("bottom-border");
     } else if (!startCell.hasClass("bottom-border")) {
+        if (startCell.hasClass("bottom-no-border")) {
+            startCell.removeClass("bottom-no-border");  
+        } 
         var nextCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) + 1);
         var nextCell = $('#' + nextCellId);
         startCell.html("");
@@ -139,6 +149,9 @@ function moveLeft() {
         leftCell.removeClass("right-border-hidden");
         leftCell.addClass("right-border");
     } else if (!leftCell.hasClass("right-border")) {
+        if (leftCell.hasClass("right-no-border")) {
+            leftCell.removeClass("right-no-border");  
+        } 
         startCell.html("");
         leftCell.html('P1');
         playerOne = leftCellId;
@@ -153,6 +166,9 @@ function moveUp() {
         upCell.removeClass("bottom-border-hidden");
         upCell.addClass("bottom-border");
     } else if (!upCell.hasClass("bottom-border")) {
+        if (upCell.hasClass("bottom-no-border")) {
+            upCell.removeClass("bottom-no-border");  
+        } 
         startCell.html("");
         upCell.html('P1');
         playerOne = upCellId;
