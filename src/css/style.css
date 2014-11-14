@@ -4,10 +4,12 @@
 }
 .table-board tr {
     height: 40px;
+    width: 360px;
 }
 .table-board td {
     width: 40px;
     text-align: center;
+    border-collapse: collapse;
 }
 .table-first tr:not(:first-child) td:first-child,
 .table-first tr:not(:first-child) td:last-child,
@@ -32,4 +34,7 @@
     border-bottom-color: grey !important;
     border-bottom-style: dotted !important;
     border-bottom-width: 2px !important;
+}
+.non-visited {
+    background-color: #F9F9F9;
 }
