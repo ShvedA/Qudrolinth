@@ -23,6 +23,35 @@ labirinth[8][1] = new Array(0,1,1,1,1,1,1,1,1);
 
 var playerOne = "";
 
+window.addEventListener("keydown", function(event) {
+    if (event.defaultPrevented) {
+        return;
+    }
+    switch (event.keyCode) {
+    case 40:
+        moveDown();
+        break;
+    case 38:
+        moveUp();
+        break;
+    case 37:
+        moveLeft();
+        break;
+    case 39:
+        moveRight();
+        break;
+    case "Enter":
+      // Do something for "enter" or "return" key press.
+        break;
+    case "Esc":
+      // Do something for "esc" key press.
+        break;
+    default:
+        return; // Quit when this doesn't handle the key event.
+  }
+event.preventDefault();
+}, true);
+
 function showLabirinth() {
     var div = document.getElementById("secondTable");
     var table = document.createElement("table");
@@ -99,13 +128,33 @@ function makeEmptyTable() {
     table.appendChild(tbody);
     div.appendChild(table);
 }
-
+                        
 function startFrom(letter, number) {
     var startCell = document.getElementById(letter + number);
     startCell.innerHTML = "P1";
     playerOne = letter + number;
     var startCell = $('#' + playerOne);
     startCell.removeClass("non-visited");
+}
+
+function makeHoles(firstHole, secondHole) {
+    var firstCell = $('#' + firstHole);
+    var secondCell = $('#' + secondHole);
+    firstCell.addClass("hole holeOne");
+    secondCell.addClass("hole holeTwo");
+}
+
+function fallIntoHole() {
+    var firstHole = $('#' + playerOne);
+    if (firstHole.hasClass("holeOne")) {
+        var secondHole = $(".holeTwo");  
+    } else if (firstHole.hasClass("holeTwo")) {
+        var secondHole = $(".holeOne");
+    }
+    secondHole.removeClass("non-visited");
+    playerOne = secondHole.attr('id')
+    firstHole.html("");
+    secondHole.html("P1");
 }
 
 function moveRight() {
@@ -123,6 +172,9 @@ function moveRight() {
         nextCell.html('P1');
         playerOne = nextCellId;
         nextCell.removeClass("non-visited");
+        if (nextCell.hasClass("hole")) {
+            fallIntoHole();   
+        }
     }
 }
 
@@ -141,6 +193,9 @@ function moveDown() {
         nextCell.html('P1');
         playerOne = nextCellId;
         nextCell.removeClass("non-visited");
+        if (nextCell.hasClass("hole")) {
+            fallIntoHole();   
+        }
     }
 }
 
@@ -163,6 +218,9 @@ function moveLeft() {
         leftCell.html('P1');
         playerOne = leftCellId;
         leftCell.removeClass("non-visited");
+        if (leftCell.hasClass("hole")) {
+            fallIntoHole();   
+        }
     }
 }
 
@@ -181,5 +239,8 @@ function moveUp() {
         upCell.html('P1');
         playerOne = upCellId;
         upCell.removeClass("non-visited");
+        if (upCell.hasClass("hole")) {
+            fallIntoHole();   
+        }
     }
 }

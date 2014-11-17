@@ -38,3 +38,6 @@
 .non-visited {
     background-color: #F9F9F9;
 }
+.hole:not(.non-visited){
+    background-color: #a0e0d1;   
+}
