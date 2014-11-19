@@ -22,6 +22,7 @@ labirinth[8][0] = new Array(1,0,0,0,1,0,0,0,1);
 labirinth[8][1] = new Array(0,1,1,1,1,1,1,1,1);
 
 var playerOne = "";
+var holeNumber = 0;
 
 window.addEventListener("keydown", function(event) {
     if (event.defaultPrevented) {
@@ -52,12 +53,13 @@ window.addEventListener("keydown", function(event) {
 event.preventDefault();
 }, true);
 
-function showLabirinth() {
+function showNewLabirinth() {
+    holeNumber++;
     var div = document.getElementById("secondTable");
     var label = document.createElement("label");
     label.innerHTML = "From the hole";
     var table = document.createElement("table");
-    table.className = "table table-bordered table-board";
+    table.className = "table-board";
     var tbody = document.createElement("tbody");
     var alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY";
     for(var row = 0; row < labirinth.length; row++) {
@@ -71,7 +73,7 @@ function showLabirinth() {
                 td.innerHTML=row;   
             }
             if (!(col == 0 && row == 0)) {
-                td.id = alphabet.charAt(col) + row + "2";   
+                td.id = alphabet.charAt(col) + row + holeNumber;   
             }
             if (col > 0 && row > 0) {
                 td.className += ("non-visited");   
@@ -103,9 +105,9 @@ function showLabirinth() {
     div.appendChild(table);
     for (var row = 0; row < labirinth.length; row++) {
         for (var col = 0; col < labirinth[row][0].length; col++) {
-            $('#'+alphabet.charAt(col) + row + '2').hide();
+            $('#'+alphabet.charAt(col) + row + holeNumber).hide();
         }
-        $('.tr' + row).hide();
+        //$('.tr' + row).hide();
     }
 }
 
@@ -172,102 +174,108 @@ function makeHoles(firstHole, secondHole) {
 }
 
 function fallIntoHole() {
+    showNewLabirinth();
     var firstHole = $('#' + playerOne);
     if (firstHole.hasClass("holeOne")) {
         var secondHole = $(".holeTwo");  
     } else if (firstHole.hasClass("holeTwo")) {
         var secondHole = $(".holeOne");
     }
-    secondHole.removeClass("non-visited");
     playerOne = secondHole.attr('id')
+    secondHole = $('#' + playerOne + holeNumber);
+    $('#' + String.fromCharCode(playerOne.charCodeAt(0) - 1) + (playerOne.charAt(1) - 1) + holeNumber).show();
+    $('#' + String.fromCharCode(playerOne.charCodeAt(0) - 1) + playerOne.charAt(1) + holeNumber).show();
+    $('#' + String.fromCharCode(playerOne.charCodeAt(0) - 1) + (playerOne.charAt(1) - (-1)) + holeNumber).show();
+    $('#' + playerOne.charAt(0) + (playerOne.charAt(1) - 1) + holeNumber).show();
+    $('#' + playerOne.charAt(0) + playerOne.charAt(1) + holeNumber).show();
+    $('#' + playerOne.charAt(0) + (playerOne.charAt(1) - (-1)) + holeNumber).show();
+    $('#' + String.fromCharCode(playerOne.charCodeAt(0) + 1) + (playerOne.charAt(1) - 1) + holeNumber).show();
+    $('#' + String.fromCharCode(playerOne.charCodeAt(0) + 1) + playerOne.charAt(1) + holeNumber).show();
+    $('#' + String.fromCharCode(playerOne.charCodeAt(0) + 1) + (playerOne.charAt(1) - (-1)) + holeNumber).show();
+    secondHole.show();
+    secondHole.removeClass("non-visited");
     firstHole.html("");
     secondHole.html("P1");
 }
 
 function moveRight() {
-    var startCell = $('#' + playerOne);
-    if (startCell.hasClass("right-border-hidden")) {
-        startCell.removeClass("right-border-hidden");
-        startCell.addClass("right-border");
-    } else if (!startCell.hasClass("right-border")) {
-        if (startCell.hasClass("right-no-border")) {
-            startCell.removeClass("right-no-border");  
-        }   
-        var nextCellId = String.fromCharCode(playerOne.charCodeAt(0) + 1) + playerOne.charAt(1);
-        var nextCell = $('#' + nextCellId);
-        startCell.html("");
-        nextCell.html('P1');
-        playerOne = nextCellId;
-        nextCell.removeClass("non-visited");
-        if (nextCell.hasClass("hole")) {
-            fallIntoHole();   
+    if (holeNumber == 0) {
+        var startCell = $('#' + playerOne);
+        if (startCell.hasClass("right-border-hidden")) {
+            startCell.removeClass("right-border-hidden");
+            startCell.addClass("right-border");
+        } else if (!startCell.hasClass("right-border")) {
+            if (startCell.hasClass("right-no-border")) {
+                startCell.removeClass("right-no-border");  
+            }   
+            var nextCellId = String.fromCharCode(playerOne.charCodeAt(0) + 1) + playerOne.charAt(1);
+            var nextCell = $('#' + nextCellId);
+            move(startCell, nextCell);
         }
     }
 }
 
 function moveDown() {
-    var startCell = $('#' + playerOne);
-    if (startCell.hasClass("bottom-border-hidden")) {
-        startCell.removeClass("bottom-border-hidden");
-        startCell.addClass("bottom-border");
-    } else if (!startCell.hasClass("bottom-border")) {
-        if (startCell.hasClass("bottom-no-border")) {
-            startCell.removeClass("bottom-no-border");  
-        } 
-        var nextCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) + 1);
-        var nextCell = $('#' + nextCellId);
-        startCell.html("");
-        nextCell.html('P1');
-        playerOne = nextCellId;
-        nextCell.removeClass("non-visited");
-        if (nextCell.hasClass("hole")) {
-            fallIntoHole();   
+    if (holeNumber == 0) {
+        var startCell = $('#' + playerOne);
+        if (startCell.hasClass("bottom-border-hidden")) {
+            startCell.removeClass("bottom-border-hidden");
+            startCell.addClass("bottom-border");
+        } else if (!startCell.hasClass("bottom-border")) {
+            if (startCell.hasClass("bottom-no-border")) {
+                startCell.removeClass("bottom-no-border");  
+            } 
+            var nextCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) + 1);
+            var nextCell = $('#' + nextCellId);
+            move(startCell, nextCell);
         }
     }
 }
 
 function moveLeft() {
-    var startCell = $('#' + playerOne);
-    if (playerOne.charAt(0) == 'A') {
-        var leftCellId = 'Z' + playerOne.charAt(1);   
-    } else {
-        var leftCellId = String.fromCharCode(playerOne.charCodeAt(0) - 1) + playerOne.charAt(1);
-    }
-    var leftCell = $('#' + leftCellId);
-    if (leftCell.hasClass("right-border-hidden")) {
-        leftCell.removeClass("right-border-hidden");
-        leftCell.addClass("right-border");
-    } else if (!leftCell.hasClass("right-border")) {
-        if (leftCell.hasClass("right-no-border")) {
-            leftCell.removeClass("right-no-border");  
-        } 
-        startCell.html("");
-        leftCell.html('P1');
-        playerOne = leftCellId;
-        leftCell.removeClass("non-visited");
-        if (leftCell.hasClass("hole")) {
-            fallIntoHole();   
+    if (holeNumber == 0) {
+        var startCell = $('#' + playerOne);
+        if (playerOne.charAt(0) == 'A') {
+            var leftCellId = 'Z' + playerOne.charAt(1);   
+        } else {
+            var leftCellId = String.fromCharCode(playerOne.charCodeAt(0) - 1) + playerOne.charAt(1);
+        }
+        var leftCell = $('#' + leftCellId);
+        if (leftCell.hasClass("right-border-hidden")) {
+            leftCell.removeClass("right-border-hidden");
+            leftCell.addClass("right-border");
+        } else if (!leftCell.hasClass("right-border")) {
+            if (leftCell.hasClass("right-no-border")) {
+                leftCell.removeClass("right-no-border");  
+            } 
+            move(startCell, leftCell);
         }
     }
 }
 
 function moveUp() {
-    var startCell = $('#' + playerOne);
-    var upCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) - 1);
-    var upCell = $('#' + upCellId);
-    if (upCell.hasClass("bottom-border-hidden")) {
-        upCell.removeClass("bottom-border-hidden");
-        upCell.addClass("bottom-border");
-    } else if (!upCell.hasClass("bottom-border")) {
-        if (upCell.hasClass("bottom-no-border")) {
-            upCell.removeClass("bottom-no-border");  
-        } 
-        startCell.html("");
-        upCell.html('P1');
-        playerOne = upCellId;
-        upCell.removeClass("non-visited");
-        if (upCell.hasClass("hole")) {
-            fallIntoHole();   
+    if (holeNumber == 0) {
+        var startCell = $('#' + playerOne);
+        var upCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) - 1);
+        var upCell = $('#' + upCellId);
+        if (upCell.hasClass("bottom-border-hidden")) {
+            upCell.removeClass("bottom-border-hidden");
+            upCell.addClass("bottom-border");
+        } else if (!upCell.hasClass("bottom-border")) {
+            if (upCell.hasClass("bottom-no-border")) {
+                upCell.removeClass("bottom-no-border");  
+            } 
+           move(startCell, upCell);
         }
     }
+}
+
+function move(startCell, nextCell) {
+    startCell.html("");
+    nextCell.html('P1');
+    playerOne = nextCell.attr('id');
+    nextCell.removeClass("non-visited");
+    if (nextCell.hasClass("hole")) {
+        fallIntoHole();   
+    }   
 }
