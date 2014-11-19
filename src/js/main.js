@@ -54,32 +54,59 @@ event.preventDefault();
 
 function showLabirinth() {
     var div = document.getElementById("secondTable");
+    var label = document.createElement("label");
+    label.innerHTML = "From the hole";
     var table = document.createElement("table");
     table.className = "table table-bordered table-board";
     var tbody = document.createElement("tbody");
-    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY";
     for(var row = 0; row < labirinth.length; row++) {
         var tr = document.createElement("tr");
+        tr.className += " tr" + row;
         for (var col = 0; col < labirinth[row][0].length; col++) {
-            var td = document.createElement("td")
+            var td = document.createElement("td");
             if (row == 0 && col > 0) {
-                td.innerHTML=alphabet.charAt(col-1);   
-            }
-            if (col == 0 && row > 0) {
+                td.innerHTML=alphabet.charAt(col);   
+            } else if (col == 0 && row > 0) {
                 td.innerHTML=row;   
             }
+            if (!(col == 0 && row == 0)) {
+                td.id = alphabet.charAt(col) + row + "2";   
+            }
+            if (col > 0 && row > 0) {
+                td.className += ("non-visited");   
+            }
             if (labirinth[row][0][col] == 1) {
-                td.className += " right-border";
+                if (col == 0 || col == labirinth.length - 1) {
+                    td.className += " right-border";
+                } else {
+                    td.className += " right-border-hidden";   
+                }
+            } else if (col > 0 && row > 0) {
+                td.className += " right-no-border";   
             }
             if (labirinth[row][1][col] == 1) {
-                td.className += " bottom-border";   
+                if (row == 0 || row == labirinth.length - 1) {
+                    td.className += " bottom-border";   
+                } else {
+                    td.className += " bottom-border-hidden";
+                }
+            } else if (col > 0 && row > 0) {
+                td.className += " bottom-no-border";
             }
             tr.appendChild(td);
         }
         tbody.appendChild(tr);
     }
     table.appendChild(tbody);
+    div.appendChild(label);
     div.appendChild(table);
+    for (var row = 0; row < labirinth.length; row++) {
+        for (var col = 0; col < labirinth[row][0].length; col++) {
+            $('#'+alphabet.charAt(col) + row + '2').hide();
+        }
+        $('.tr' + row).hide();
+    }
 }
 
 function makeEmptyTable() {
