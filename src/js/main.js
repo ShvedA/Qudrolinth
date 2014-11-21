@@ -166,6 +166,22 @@ function makeDivTable() {
         divRow.addClass('divRow');
         for (var col = 0; col < labirinth[row][0].length; col++) {
             var divCell = $('<div>');
+            if (col == 0 && row == 0) {
+                divCell.addClass('divCellCornerTopLeft');   
+            } else if (row == 0) {
+                divCell.addClass('divCellTop');   
+            } else if (col == 0) {
+                divCell.addClass('divCellLeft');   
+            } else {
+                divCell.addClass('divCellBoard'); 
+                if (col == labirinth.length - 1 && row == labirinth.length - 1) {
+                    divCell.addClass('divCellCornerBottomRight');  
+                } else if (row > 0 && col == labirinth.length - 1) {
+                    divCell.addClass('divCellRight');   
+                } else if (col > 0 && row == labirinth.length - 1) {
+                    divCell.addClass('divCellBottom');   
+                }
+            } 
             divCell.addClass('divCell');
             divCell.html(row + " " + col);
             

@@ -42,15 +42,41 @@
     background-color: #a0e0d1;   
 }
 .divCell {
-    border: 1px solid #DDD;
+    /*border: 1px dotted #DDD;*/
+    border-width: 0 1px 1px 0;
+    border-color: #DDD;
+    border-style: dotted;
     display: inline-block;
     width: 40px;
     height: 40px;
     text-align: center;
     vertical-align: middle;
-    margin: -1px 0 0 -1px;
+    /*margin: -1px 0 0 -1px;*/
 }
 .divRow {
     overflow: hidden;
+}
+.divCellTop,
+.divCellCornerTopLeft {
+    border-top-width: 1px;
+}
+.divCellBottom,
+.divCellTop,
+.divCellCornerBottomRight {
+    border-bottom-color: black !important;
+    border-bottom-style: solid !important;
+}
+.divCellLeft,
+.divCellCornerTopLeft {
+    border-left-width: 1px;
+}
+.divCellRight,
+.divCellLeft,
+.divCellCornerBottomRight {
+    border-right-style: solid !important;
+    border-right-color: black !important;
+}
+.divCellBoard {
+    background-color: #F9F9F9;   
 }
 
