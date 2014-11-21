@@ -23,6 +23,7 @@ labirinth[8][1] = new Array(0,1,1,1,1,1,1,1,1);
 
 var playerOne = "";
 var holeNumber = 0;
+var alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY";
 
 window.addEventListener("keydown", function(event) {
     if (event.defaultPrevented) {
@@ -61,7 +62,6 @@ function showNewLabirinth() {
     var table = document.createElement("table");
     table.className = "table-board";
     var tbody = document.createElement("tbody");
-    var alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY";
     for(var row = 0; row < labirinth.length; row++) {
         var tr = document.createElement("tr");
         tr.className += " tr" + row;
@@ -116,7 +116,6 @@ function makeEmptyTable() {
     var table = document.createElement("table");
     table.className = "table table-bordered table-board";
     var tbody = document.createElement("tbody");
-    var alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY";
     for(var row = 0; row < labirinth.length; row++) {
         var tr = document.createElement("tr");
         for (var col = 0; col < labirinth[row][0].length; col++) {
@@ -157,7 +156,28 @@ function makeEmptyTable() {
     table.appendChild(tbody);
     div.appendChild(table);
 }
-                        
+           
+function makeDivTable() {
+    var div = $('#divTable');
+    var divTable = $('<div>');
+    divTable.addClass('divTable');
+    for (var row = 0; row < labirinth.length; row++) {
+        var divRow = $('<div>');  
+        divRow.addClass('divRow');
+        for (var col = 0; col < labirinth[row][0].length; col++) {
+            var divCell = $('<div>');
+            divCell.addClass('divCell');
+            divCell.html(row + " " + col);
+            
+            divRow.append(divCell);
+        }
+        divTable.append(divRow);
+    }
+    div.append(divTable);
+    
+    
+}
+
 function startFrom(letter, number) {
     var startCell = document.getElementById(letter + number);
     startCell.innerHTML = "P1";
