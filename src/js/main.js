@@ -1,31 +1,34 @@
-var labirinth = new Array();
-var sides = new Array("Border-Right", "Border-Bottom");
-for (var rows = 0; rows < 9; rows++) 
-labirinth[rows] = new Array();
-labirinth[0][0] = new Array(0,0,0,0,0,0,0,0,0);
-labirinth[0][1] = new Array(0,1,1,1,1,1,1,1,1);
-labirinth[1][0] = new Array(1,0,1,1,1,0,0,0,1);
-labirinth[1][1] = new Array(0,0,0,0,0,0,1,1,0);
-labirinth[2][0] = new Array(1,1,0,1,0,0,0,1,1);
-labirinth[2][1] = new Array(0,0,1,0,0,0,0,0,0);
-labirinth[3][0] = new Array(1,1,0,0,1,1,1,1,1);
-labirinth[3][1] = new Array(0,0,0,1,1,0,0,0,0);
-labirinth[4][0] = new Array(1,1,1,0,0,0,1,0,1);
-labirinth[4][1] = new Array(0,0,0,0,0,0,1,1,1);
-labirinth[5][0] = new Array(1,0,0,1,1,1,0,0,1);
-labirinth[5][1] = new Array(0,1,1,0,0,0,0,0,0);
-labirinth[6][0] = new Array(1,0,0,1,1,0,0,1,1);
-labirinth[6][1] = new Array(0,0,0,0,0,1,1,0,0);
-labirinth[7][0] = new Array(1,1,1,0,0,0,0,1,1);
-labirinth[7][1] = new Array(0,0,1,1,0,0,1,0,0);
-labirinth[8][0] = new Array(1,0,0,0,1,0,0,0,1);
-labirinth[8][1] = new Array(0,1,1,1,1,1,1,1,1);
+/*jslint plusplus: true */
+var labirinth = [];
+var sides = ["Border-Right", "Border-Bottom"];
+for (var rows = 0; rows < 9; rows++) {
+    labirinth[rows] = [];
+}
+labirinth[0][0] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+labirinth[0][1] = [0, 1, 1, 1, 1, 1, 1, 1, 1];
+labirinth[1][0] = [1, 0, 1, 1, 1, 0, 0, 0, 1];
+labirinth[1][1] = [0, 0, 0, 0, 0, 0, 1, 1, 0];
+labirinth[2][0] = [1, 1, 0, 1, 0, 0, 0, 1, 1];
+labirinth[2][1] = [0, 0, 1, 0, 0, 0, 0, 0, 0];
+labirinth[3][0] = [1, 1, 0, 0, 1, 1, 1, 1, 1];
+labirinth[3][1] = [0, 0, 0, 1, 1, 0, 0, 0, 0];
+labirinth[4][0] = [1, 1, 1, 0, 0, 0, 1, 0, 1];
+labirinth[4][1] = [0, 0, 0, 0, 0, 0, 1, 1, 1];
+labirinth[5][0] = [1, 0, 0, 1, 1, 1, 0, 0, 1];
+labirinth[5][1] = [0, 1, 1, 0, 0, 0, 0, 0, 0];
+labirinth[6][0] = [1, 0, 0, 1, 1, 0, 0, 1, 1];
+labirinth[6][1] = [0, 0, 0, 0, 0, 1, 1, 0, 0];
+labirinth[7][0] = [1, 1, 1, 0, 0, 0, 0, 1, 1];
+labirinth[7][1] = [0, 0, 1, 1, 0, 0, 1, 0, 0];
+labirinth[8][0] = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+labirinth[8][1] = [0, 1, 1, 1, 1, 1, 1, 1, 1];
 
 var playerOne = "";
 var holeNumber = 0;
 var alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY";
+var firstPl = '<img id="firstPl" src="pictures/person.png" />';
 
-window.addEventListener("keydown", function(event) {
+window.addEventListener("keydown", function (event) {
     if (event.defaultPrevented) {
         return;
     }
@@ -50,8 +53,8 @@ window.addEventListener("keydown", function(event) {
         break;
     default:
         return; // Quit when this doesn't handle the key event.
-  }
-event.preventDefault();
+    }
+    event.preventDefault();
 }, true);
 
 function showNewLabirinth() {
@@ -183,7 +186,7 @@ function makeDivTable() {
                 }
             } 
             divCell.addClass('divCell');
-            divCell.html(row + " " + col);
+            divCell.attr('id',col + '' + row);
             
             divRow.append(divCell);
         }
@@ -194,11 +197,10 @@ function makeDivTable() {
     
 }
 
-function startFrom(letter, number) {
-    var startCell = document.getElementById(letter + number);
-    startCell.innerHTML = "P1";
-    playerOne = letter + number;
-    var startCell = $('#' + playerOne);
+function startFrom(coordinates) {
+    var startCell = $('#' + coordinates);
+    playerOne = coordinates;
+    startCell.append(firstPl);
     startCell.removeClass("non-visited");
 }
 
@@ -308,7 +310,7 @@ function moveUp() {
 
 function move(startCell, nextCell) {
     startCell.html("");
-    nextCell.html('P1');
+    nextCell.html(firstPl);
     playerOne = nextCell.attr('id');
     nextCell.removeClass("non-visited");
     if (nextCell.hasClass("hole")) {
