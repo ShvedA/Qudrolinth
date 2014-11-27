@@ -16,12 +16,14 @@
 .right-border {
     border-right-color: black !important;
     border-right-width: 2px !important;
+    border-right-style: solid !important;
 }
 .table-first tr:first-child td:not(:first-child),
 .table-first tr:last-child td:not(:first-child),
 .bottom-border {
     border-bottom-color: black !important;
     border-bottom-width: 2px !important;
+    border-bottom-style: solid !important;
 }
 .right-border-hidden,
 .right-no-border {
@@ -42,16 +44,14 @@
     background-color: #a0e0d1;   
 }
 .divCell {
-    /*border: 1px dotted #DDD;*/
     border-width: 0 1px 1px 0;
-    border-color: #DDD;
     border-style: dotted;
+    border-color: #DDD;
     display: inline-block;
     width: 40px;
     height: 40px;
     text-align: center;
     vertical-align: middle;
-    /*margin: -1px 0 0 -1px;*/
 }
 .divRow {
     overflow: hidden;
@@ -78,5 +78,8 @@
 }
 .divCellBoard {
     background-color: #F9F9F9;   
+}
+.divCellBoard.visited {
+    background-color: white;   
 }
 

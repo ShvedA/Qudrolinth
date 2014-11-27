@@ -185,6 +185,24 @@ function makeDivTable() {
                     divCell.addClass('divCellBottom');   
                 }
             } 
+            if (labirinth[row][0][col] == 1) {
+                if (col == 0 || col == labirinth.length - 1) {
+                    divCell.addClass('right-border');
+                } else {
+                    divCell.addClass('right-border-hidden');   
+                }
+            } else if (col > 0 && row > 0) {
+                divCell.addClass('right-no-border');   
+            }
+            if (labirinth[row][1][col] == 1) {
+                if (row == 0 || row == labirinth.length - 1) {
+                    divCell.addClass('bottom-border');   
+                } else {
+                    divCell.addClass('bottom-border-hidden');
+                }
+            } else if (col > 0 && row > 0) {
+                divCell.addClass('bottom-no-border');
+            }
             divCell.addClass('divCell');
             divCell.attr('id',col + '' + row);
             
@@ -201,7 +219,7 @@ function startFrom(coordinates) {
     var startCell = $('#' + coordinates);
     playerOne = coordinates;
     startCell.append(firstPl);
-    startCell.removeClass("non-visited");
+    startCell.addClass("visited");
 }
 
 function makeHoles(firstHole, secondHole) {
@@ -312,7 +330,7 @@ function move(startCell, nextCell) {
     startCell.html("");
     nextCell.html(firstPl);
     playerOne = nextCell.attr('id');
-    nextCell.removeClass("non-visited");
+    nextCell.addClass("visited");
     if (nextCell.hasClass("hole")) {
         fallIntoHole();   
     }   
