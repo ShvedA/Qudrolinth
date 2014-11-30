@@ -57,109 +57,6 @@ window.addEventListener("keydown", function (event) {
     event.preventDefault();
 }, true);
 
-function showNewLabirinth() {
-    holeNumber++;
-    var div = document.getElementById("secondTable");
-    var label = document.createElement("label");
-    label.innerHTML = "From the hole";
-    var table = document.createElement("table");
-    table.className = "table-board";
-    var tbody = document.createElement("tbody");
-    for(var row = 0; row < labirinth.length; row++) {
-        var tr = document.createElement("tr");
-        tr.className += " tr" + row;
-        for (var col = 0; col < labirinth[row][0].length; col++) {
-            var td = document.createElement("td");
-            if (row == 0 && col > 0) {
-                td.innerHTML=alphabet.charAt(col);   
-            } else if (col == 0 && row > 0) {
-                td.innerHTML=row;   
-            }
-            if (!(col == 0 && row == 0)) {
-                td.id = alphabet.charAt(col) + row + holeNumber;   
-            }
-            if (col > 0 && row > 0) {
-                td.className += ("non-visited");   
-            }
-            if (labirinth[row][0][col] == 1) {
-                if (col == 0 || col == labirinth.length - 1) {
-                    td.className += " right-border";
-                } else {
-                    td.className += " right-border-hidden";   
-                }
-            } else if (col > 0 && row > 0) {
-                td.className += " right-no-border";   
-            }
-            if (labirinth[row][1][col] == 1) {
-                if (row == 0 || row == labirinth.length - 1) {
-                    td.className += " bottom-border";   
-                } else {
-                    td.className += " bottom-border-hidden";
-                }
-            } else if (col > 0 && row > 0) {
-                td.className += " bottom-no-border";
-            }
-            tr.appendChild(td);
-        }
-        tbody.appendChild(tr);
-    }
-    table.appendChild(tbody);
-    div.appendChild(label);
-    div.appendChild(table);
-    for (var row = 0; row < labirinth.length; row++) {
-        for (var col = 0; col < labirinth[row][0].length; col++) {
-            $('#'+alphabet.charAt(col) + row + holeNumber).hide();
-        }
-        //$('.tr' + row).hide();
-    }
-}
-
-function makeEmptyTable() {
-    var div = document.getElementById("firstTable");
-    var table = document.createElement("table");
-    table.className = "table table-bordered table-board";
-    var tbody = document.createElement("tbody");
-    for(var row = 0; row < labirinth.length; row++) {
-        var tr = document.createElement("tr");
-        for (var col = 0; col < labirinth[row][0].length; col++) {
-            var td = document.createElement("td");
-            if (row == 0 && col > 0) {
-                td.innerHTML=alphabet.charAt(col);   
-            } else if (col == 0 && row > 0) {
-                td.innerHTML=row;   
-            }
-            if (!(col == 0 && row == 0)) {
-                td.id = alphabet.charAt(col) + row;   
-            }
-            if (col > 0 && row > 0) {
-                td.className += ("non-visited");   
-            }
-            if (labirinth[row][0][col] == 1) {
-                if (col == 0 || col == labirinth.length - 1) {
-                    td.className += " right-border";
-                } else {
-                    td.className += " right-border-hidden";   
-                }
-            } else if (col > 0 && row > 0) {
-                td.className += " right-no-border";   
-            }
-            if (labirinth[row][1][col] == 1) {
-                if (row == 0 || row == labirinth.length - 1) {
-                    td.className += " bottom-border";   
-                } else {
-                    td.className += " bottom-border-hidden";
-                }
-            } else if (col > 0 && row > 0) {
-                td.className += " bottom-no-border";
-            }
-            tr.appendChild(td);
-        }
-        tbody.appendChild(tr);
-    }
-    table.appendChild(tbody);
-    div.appendChild(table);
-}
-           
 function makeDivTable() {
     var div = $('#divTable');
     var divTable = $('<div>');
@@ -204,15 +101,58 @@ function makeDivTable() {
                 divCell.addClass('bottom-no-border');
             }
             divCell.addClass('divCell');
-            divCell.attr('id',col + '' + row);
-            
+            divCell.attr('id', col + '' + row);
             divRow.append(divCell);
         }
         divTable.append(divRow);
     }
     div.append(divTable);
-    
-    
+}
+
+function preMakeTable() {
+    var div = $('#firstTable');
+    var divTable = $('<div>');
+    divTable.addClass('divTable');
+    for (var row = 0; row < labirinth.length; row++) {
+        var divRow = $('<div>');  
+        divRow.addClass('divRow');
+        for (var col = 0; col < labirinth[row][0].length; col++) {
+            var divCell = $('<div>');
+            /*if (col == 0 && row == 0) {
+                divCell.addClass('divCellCornerTopLeft');   
+            } else if (row == 0) {
+                divCell.addClass('divCellTop');   
+            } else if (col == 0) {
+                divCell.addClass('divCellLeft');   
+            } else {
+                
+                if (col == labirinth.length - 1 && row == labirinth.length - 1) {
+                    divCell.addClass('divCellCornerBottomRight');  
+                } else if (row > 0 && col == labirinth.length - 1) {
+                    divCell.addClass('divCellRight');   
+                } else if (col > 0 && row == labirinth.length - 1) {
+                    divCell.addClass('divCellBottom');   
+                }
+            } */
+            divCell.addClass('divCellBoard'); 
+            if (labirinth[row][0][col] == 1) {
+                divCell.addClass('right-border-hidden');   
+            } else if (col > 0 && row > 0) {
+                divCell.addClass('right-no-border');   
+            }
+            if (labirinth[row][1][col] == 1) {
+                divCell.addClass('bottom-border-hidden');
+            } else if (col > 0 && row > 0) {
+                divCell.addClass('bottom-no-border');
+            }
+            divCell.addClass('divCell');
+            divCell.attr('id', col + '' + row + '' + holeNumber);
+            divCell.hide();
+            divRow.append(divCell);
+        }
+        divTable.append(divRow);
+    }
+    div.append(divTable);
 }
 
 function startFrom(coordinates) {
@@ -230,28 +170,29 @@ function makeHoles(firstHole, secondHole) {
 }
 
 function fallIntoHole() {
-    showNewLabirinth();
+    holeNumber++;
+    preMakeTable();
     var firstHole = $('#' + playerOne);
     if (firstHole.hasClass("holeOne")) {
         var secondHole = $(".holeTwo");  
     } else if (firstHole.hasClass("holeTwo")) {
         var secondHole = $(".holeOne");
     }
-    playerOne = secondHole.attr('id')
-    secondHole = $('#' + playerOne + holeNumber);
-    $('#' + String.fromCharCode(playerOne.charCodeAt(0) - 1) + (playerOne.charAt(1) - 1) + holeNumber).show();
-    $('#' + String.fromCharCode(playerOne.charCodeAt(0) - 1) + playerOne.charAt(1) + holeNumber).show();
-    $('#' + String.fromCharCode(playerOne.charCodeAt(0) - 1) + (playerOne.charAt(1) - (-1)) + holeNumber).show();
-    $('#' + playerOne.charAt(0) + (playerOne.charAt(1) - 1) + holeNumber).show();
-    $('#' + playerOne.charAt(0) + playerOne.charAt(1) + holeNumber).show();
-    $('#' + playerOne.charAt(0) + (playerOne.charAt(1) - (-1)) + holeNumber).show();
-    $('#' + String.fromCharCode(playerOne.charCodeAt(0) + 1) + (playerOne.charAt(1) - 1) + holeNumber).show();
-    $('#' + String.fromCharCode(playerOne.charCodeAt(0) + 1) + playerOne.charAt(1) + holeNumber).show();
-    $('#' + String.fromCharCode(playerOne.charCodeAt(0) + 1) + (playerOne.charAt(1) - (-1)) + holeNumber).show();
-    secondHole.show();
-    secondHole.removeClass("non-visited");
+    playerOne = secondHole.attr('id') + '' + holeNumber;    
+    secondHole = $('#' + playerOne);
+    
+    $('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - 1) + '' + playerOne.charAt(1) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
+    $('#' + playerOne.charAt(0) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
+    $('#' + playerOne.charAt(0) + '' + playerOne.charAt(1) + '' + holeNumber).show();
+    $('#' + playerOne.charAt(0) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - (-1)) + '' + playerOne.charAt(1) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
+    secondHole.addClass("visited");
     firstHole.html("");
-    secondHole.html("P1");
+    secondHole.html(firstPl);
 }
 
 function moveRight() {
