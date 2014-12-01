@@ -172,91 +172,96 @@ function fallIntoHole() {
     secondHole.html(firstPl);
 }
 
+function hasRightBorder(cell) {
+    if (cell.hasClass("right-border-hidden")) {
+        cell.removeClass("right-border-hidden");
+        cell.addClass("right-border");
+        return true;
+    }
+    if (!cell.hasClass("right-border")) {
+        if (cell.hasClass("right-no-border")) {
+            cell.removeClass("right-no-border");
+        } 
+        return false;
+    }    
+    return true;
+}
+
+function hasBottomBorder(cell) {
+    if (cell.hasClass("bottom-border-hidden")) {
+        cell.removeClass("bottom-border-hidden");
+        cell.addClass("bottom-border");
+        return true;
+    }
+    if (!cell.hasClass("bottom-border")) {
+        if (cell.hasClass("bottom-no-border")) {
+            cell.removeClass("bottom-no-border");  
+        } 
+        return false;
+    }
+    return true;
+}
+
 function moveRight() {
+    var startCell = $('#' + playerOne);
     if (holeNumber == 0) {
-        var startCell = $('#' + playerOne);
-        if (startCell.hasClass("right-border-hidden")) {
-            startCell.removeClass("right-border-hidden");
-            startCell.addClass("right-border");
-        } else if (!startCell.hasClass("right-border")) {
-            if (startCell.hasClass("right-no-border")) {
-                startCell.removeClass("right-no-border");  
-            }   
+        if (!hasRightBorder(startCell)) {
             var nextCellId = String.fromCharCode(playerOne.charCodeAt(0) + 1) + playerOne.charAt(1);
             var nextCell = $('#' + nextCellId);
-            move(startCell, nextCell);
+            move(startCell, nextCell);       
+        }
+    } else {
+        if (!hasRightBorder(startCell)) {
+            var nextCellId = String.fromCharCode(playerOne.charCodeAt(0) + 1) + playerOne.charAt(1) + '' + holeNumber;
+            var nextCell = $('#' + nextCellId);         
+            moveAfterHole(startCell, nextCell);
         }
     }
 }
 
 function moveDown() {
+    var startCell = $('#' + playerOne);
     if (holeNumber == 0) {
-        var startCell = $('#' + playerOne);
-        if (startCell.hasClass("bottom-border-hidden")) {
-            startCell.removeClass("bottom-border-hidden");
-            startCell.addClass("bottom-border");
-        } else if (!startCell.hasClass("bottom-border")) {
-            if (startCell.hasClass("bottom-no-border")) {
-                startCell.removeClass("bottom-no-border");  
-            } 
+        if (!hasBottomBorder(startCell)) {
             var nextCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) + 1);
             var nextCell = $('#' + nextCellId);
-            move(startCell, nextCell);
+            move(startCell, nextCell);   
         }
     }
 }
 
 function moveLeft() {
+    var startCell = $('#' + playerOne);
     if (holeNumber == 0) {
-        var startCell = $('#' + playerOne);
         if (playerOne.charAt(0) == 'A') {
             var leftCellId = 'Z' + playerOne.charAt(1);   
         } else {
             var leftCellId = String.fromCharCode(playerOne.charCodeAt(0) - 1) + playerOne.charAt(1);
         }
         var leftCell = $('#' + leftCellId);
-        if (leftCell.hasClass("right-border-hidden")) {
-            leftCell.removeClass("right-border-hidden");
-            leftCell.addClass("right-border");
-        } else if (!leftCell.hasClass("right-border")) {
-            if (leftCell.hasClass("right-no-border")) {
-                leftCell.removeClass("right-no-border");  
-            } 
-            move(startCell, leftCell);
+        if (!hasRightBorder(leftCell)) {
+            move(startCell, leftCell);    
         }
     } else {
-        var startCell = $('#' + playerOne);
         if (playerOne.charAt(0) == 'A') {
             var leftCellId = 'Z' + playerOne.charAt(1) + '' + holeNumber;   
         } else {
             var leftCellId = String.fromCharCode(playerOne.charCodeAt(0) - 1) + playerOne.charAt(1) + '' + holeNumber;
         } 
         var leftCell = $('#' + leftCellId);
-        if (leftCell.hasClass("right-border-hidden")) {
-            leftCell.removeClass("right-border-hidden");
-            leftCell.addClass("right-border");
-        } else if (!leftCell.hasClass("right-border")) {
-            if (leftCell.hasClass("right-no-border")) {
-                leftCell.removeClass("right-no-border");  
-            } 
-            moveAfterHole(startCell, leftCell);
+        if (!hasRightBorder(leftCell)) {
+            moveAfterHole(startCell, leftCell);    
         }
     }   
 }
 
 function moveUp() {
+    var startCell = $('#' + playerOne);
     if (holeNumber == 0) {
-        var startCell = $('#' + playerOne);
         var upCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) - 1);
         var upCell = $('#' + upCellId);
-        if (upCell.hasClass("bottom-border-hidden")) {
-            upCell.removeClass("bottom-border-hidden");
-            upCell.addClass("bottom-border");
-        } else if (!upCell.hasClass("bottom-border")) {
-            if (upCell.hasClass("bottom-no-border")) {
-                upCell.removeClass("bottom-no-border");  
-            } 
-           move(startCell, upCell);
+        if (!hasBottomBorder(upCell)) {
+            move(startCell, upCell);   
         }
     }
 }
