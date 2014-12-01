@@ -113,37 +113,23 @@ function preMakeTable() {
     var div = $('#firstTable');
     var divTable = $('<div>');
     divTable.addClass('divTable');
-    for (var row = 0; row < labirinth.length; row++) {
+    for (var row = 0; row < labirinth.length + 1; row++) {
         var divRow = $('<div>');  
         divRow.addClass('divRow');
-        for (var col = 0; col < labirinth[row][0].length; col++) {
+        for (var col = 0; col < labirinth.length + 1; col++) {
             var divCell = $('<div>');
-            /*if (col == 0 && row == 0) {
-                divCell.addClass('divCellCornerTopLeft');   
-            } else if (row == 0) {
-                divCell.addClass('divCellTop');   
-            } else if (col == 0) {
-                divCell.addClass('divCellLeft');   
-            } else {
-                
-                if (col == labirinth.length - 1 && row == labirinth.length - 1) {
-                    divCell.addClass('divCellCornerBottomRight');  
-                } else if (row > 0 && col == labirinth.length - 1) {
-                    divCell.addClass('divCellRight');   
-                } else if (col > 0 && row == labirinth.length - 1) {
-                    divCell.addClass('divCellBottom');   
+            divCell.addClass('divCellBoard');
+            if (row != labirinth.length && col != labirinth.length) {
+                if (labirinth[row][0][col] == 1) {
+                    divCell.addClass('right-border-hidden');   
+                } else if (col > 0 && row > 0) {
+                    divCell.addClass('right-no-border');   
                 }
-            } */
-            divCell.addClass('divCellBoard'); 
-            if (labirinth[row][0][col] == 1) {
-                divCell.addClass('right-border-hidden');   
-            } else if (col > 0 && row > 0) {
-                divCell.addClass('right-no-border');   
-            }
-            if (labirinth[row][1][col] == 1) {
-                divCell.addClass('bottom-border-hidden');
-            } else if (col > 0 && row > 0) {
-                divCell.addClass('bottom-no-border');
+                if (labirinth[row][1][col] == 1) {
+                    divCell.addClass('bottom-border-hidden');
+                } else if (col > 0 && row > 0) {
+                    divCell.addClass('bottom-no-border');
+                }
             }
             divCell.addClass('divCell');
             divCell.attr('id', col + '' + row + '' + holeNumber);
@@ -180,16 +166,7 @@ function fallIntoHole() {
     }
     playerOne = secondHole.attr('id') + '' + holeNumber;    
     secondHole = $('#' + playerOne);
-    
-    $('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
-    $('#' + (playerOne.charAt(0) - 1) + '' + playerOne.charAt(1) + '' + holeNumber).show();
-    $('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
-    $('#' + playerOne.charAt(0) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
-    $('#' + playerOne.charAt(0) + '' + playerOne.charAt(1) + '' + holeNumber).show();
-    $('#' + playerOne.charAt(0) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
-    $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
-    $('#' + (playerOne.charAt(0) - (-1)) + '' + playerOne.charAt(1) + '' + holeNumber).show();
-    $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
+    showAllRound();
     secondHole.addClass("visited");
     firstHole.html("");
     secondHole.html(firstPl);
@@ -247,7 +224,24 @@ function moveLeft() {
             } 
             move(startCell, leftCell);
         }
-    }
+    } else {
+        var startCell = $('#' + playerOne);
+        if (playerOne.charAt(0) == 'A') {
+            var leftCellId = 'Z' + playerOne.charAt(1) + '' + holeNumber;   
+        } else {
+            var leftCellId = String.fromCharCode(playerOne.charCodeAt(0) - 1) + playerOne.charAt(1) + '' + holeNumber;
+        } 
+        var leftCell = $('#' + leftCellId);
+        if (leftCell.hasClass("right-border-hidden")) {
+            leftCell.removeClass("right-border-hidden");
+            leftCell.addClass("right-border");
+        } else if (!leftCell.hasClass("right-border")) {
+            if (leftCell.hasClass("right-no-border")) {
+                leftCell.removeClass("right-no-border");  
+            } 
+            moveAfterHole(startCell, leftCell);
+        }
+    }   
 }
 
 function moveUp() {
@@ -275,4 +269,21 @@ function move(startCell, nextCell) {
     if (nextCell.hasClass("hole")) {
         fallIntoHole();   
     }   
+}
+
+function moveAfterHole(startCell, nextCell) {
+    move(startCell, nextCell);
+    showAllRound();
+}
+         
+function showAllRound() {
+    $('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - 1) + '' + playerOne.charAt(1) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
+    $('#' + playerOne.charAt(0) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
+    $('#' + playerOne.charAt(0) + '' + playerOne.charAt(1) + '' + holeNumber).show();
+    $('#' + playerOne.charAt(0) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - (-1)) + '' + playerOne.charAt(1) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
 }
