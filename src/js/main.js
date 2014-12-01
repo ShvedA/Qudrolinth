@@ -122,12 +122,12 @@ function preMakeTable() {
             if (row != labirinth.length && col != labirinth.length) {
                 if (labirinth[row][0][col] == 1) {
                     divCell.addClass('right-border-hidden');   
-                } else if (col > 0 && row > 0) {
+                } else {
                     divCell.addClass('right-no-border');   
                 }
                 if (labirinth[row][1][col] == 1) {
                     divCell.addClass('bottom-border-hidden');
-                } else if (col > 0 && row > 0) {
+                } else {
                     divCell.addClass('bottom-no-border');
                 }
             }
