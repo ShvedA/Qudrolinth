@@ -25,6 +25,10 @@ labirinth[8][1] = [0, 1, 1, 1, 1, 1, 1, 1, 1];
 
 var playerOne = "";
 var holeNumber = 0;
+var newColMin = 9;
+var newColMax = 0;
+var newRowMin = 9;
+var newRowMax = 0;
 var alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY";
 var firstPl = '<img id="firstPl" src="pictures/person.png" />';
 
@@ -130,15 +134,32 @@ function preMakeTable() {
                 } else {
                     divCell.addClass('bottom-no-border');
                 }
+            } else if (row == labirinth.length && col != labirinth.length) {
+                divCell.addClass('right-no-border');   
+            } else if (col == labirinth.length && row != labirinth.length) {
+                divCell.addClass('bottom-no-border');   
             }
             divCell.addClass('divCell');
             divCell.attr('id', col + '' + row + '' + holeNumber);
             divCell.hide();
+            divCell.disable();
             divRow.append(divCell);
         }
         divTable.append(divRow);
     }
     div.append(divTable);
+}
+
+$.fn.disable = function() {
+    return this.each(function() {
+        if (typeof this.disabled != "undefined") this.disabled = true;
+    });
+}
+
+$.fn.enable = function() {
+    return this.each(function() {
+        if (typeof this.disabled != "undefined") this.disabled = false;
+    });
 }
 
 function startFrom(coordinates) {
@@ -227,6 +248,12 @@ function moveDown() {
             var nextCell = $('#' + nextCellId);
             move(startCell, nextCell);   
         }
+    } else {
+        if (!hasBottomBorder(startCell)) {
+            var nextCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) + 1) + '' + holeNumber;
+            var nextCell = $('#' + nextCellId);
+            moveAfterHole(startCell, nextCell);   
+        }
     }
 }
 
@@ -263,6 +290,12 @@ function moveUp() {
         if (!hasBottomBorder(upCell)) {
             move(startCell, upCell);   
         }
+    } else {
+        var upCellId = playerOne.charAt(0) + String.fromCharCode(playerOne.charCodeAt(1) - 1) + '' + holeNumber;
+        var upCell = $('#' + upCellId); 
+        if (!hasBottomBorder(upCell)) {
+            moveAfterHole(startCell, upCell);   
+        }
     }
 }
 
@@ -282,7 +315,27 @@ function moveAfterHole(startCell, nextCell) {
 }
          
 function showAllRound() {
-    $('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
+    var col = playerOne.charAt(0);
+    var row = playerOne.charAt(1);
+    if (newColMin > col - 1) {
+        newColMin = col - 1;
+    }
+    if (newColMax < col - (-1)) {
+        newColMax = col - (-1);   
+    }
+    if (newRowMin > row -1) {
+        newRowMin = row - 1;   
+    }
+    if (newRowMax < row - (-1)) {
+        newRowMax = row - (-1);   
+    }    
+    for (var i = newColMin; i <= newColMax; i++) {
+        for (var j = newRowMin; j <= newRowMax; j++) {
+            $('#' + i + '' + j + '' + holeNumber).show();   
+        }
+    }
+    
+/*    $('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
     $('#' + (playerOne.charAt(0) - 1) + '' + playerOne.charAt(1) + '' + holeNumber).show();
     $('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
     $('#' + playerOne.charAt(0) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
@@ -290,5 +343,15 @@ function showAllRound() {
     $('#' + playerOne.charAt(0) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
     $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).show();
     $('#' + (playerOne.charAt(0) - (-1)) + '' + playerOne.charAt(1) + '' + holeNumber).show();
-    $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();
+    $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).show();*/
+    
+    /*$('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).prop('disabled', false);
+    $('#' + (playerOne.charAt(0) - 1) + '' + playerOne.charAt(1) + '' + holeNumber).prop('disabled', false);
+    $('#' + (playerOne.charAt(0) - 1) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).prop('disabled', false);
+    $('#' + playerOne.charAt(0) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).prop('disabled', false);
+    $('#' + playerOne.charAt(0) + '' + playerOne.charAt(1) + '' + holeNumber).prop('disabled', false);
+    $('#' + playerOne.charAt(0) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).prop('disabled', false);
+    $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - 1) + '' + holeNumber).prop('disabled', false);
+    $('#' + (playerOne.charAt(0) - (-1)) + '' + playerOne.charAt(1) + '' + holeNumber).prop('disabled', false);
+    $('#' + (playerOne.charAt(0) - (-1)) + '' + (playerOne.charAt(1) - (-1)) + '' + holeNumber).prop('disabled', false);*/
 }
