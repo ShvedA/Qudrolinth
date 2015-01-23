@@ -31,6 +31,8 @@ var newRowMin = 9;
 var newRowMax = 0;
 var alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY";
 var firstPl = '<img id="firstPl" src="pictures/person.png" />';
+var firstHole = "";
+var secondHole = "";
 
 window.addEventListener("keydown", function (event) {
     if (event.defaultPrevented) {
@@ -150,6 +152,7 @@ function preMakeTable() {
         divTable.append(divRow);
     }
     div.append(divTable);
+    makeHoles();
 }
 
 $.fn.disable = function() {
@@ -171,17 +174,29 @@ function startFrom(coordinates) {
     startCell.addClass("visited");
 }
 
-function makeHoles(firstHole, secondHole) {
-    var firstCell = $('#' + firstHole);
-    var secondCell = $('#' + secondHole);
-    firstCell.addClass("hole holeOne");
-    secondCell.addClass("hole holeTwo");
+function makeHoles(first, second) {
+    if (undefined != first) {
+        firstHole = first;
+        secondHole = second;
+    }
+    var firstCell = "";
+    var secondCell = "";
+    if (holeNumber == 0) {
+        firstCell = $('#' + firstHole);
+        secondCell = $('#' + secondHole);
+    } else {
+        firstCell = $('#' + firstHole + holeNumber);
+        secondCell = $('#' + secondHole + holeNumber);
+    }
+    firstCell.addClass("hole holeOne non-visited");
+    secondCell.addClass("hole holeTwo non-visited"); 
 }
 
 function fallIntoHole() {
     holeNumber++;
     preMakeTable();
     var firstHole = $('#' + playerOne);
+    firstHole.removeClass("non-visited");
     if (firstHole.hasClass("holeOne")) {
         var secondHole = $(".holeTwo");  
     } else if (firstHole.hasClass("holeTwo")) {
