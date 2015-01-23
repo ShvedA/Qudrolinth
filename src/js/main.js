@@ -73,9 +73,11 @@ function makeDivTable() {
             if (col == 0 && row == 0) {
                 divCell.addClass('divCellCornerTopLeft');   
             } else if (row == 0) {
-                divCell.addClass('divCellTop');   
+                divCell.addClass('divCellTop');
+                divCell.text(alphabet[col]);
             } else if (col == 0) {
                 divCell.addClass('divCellLeft');   
+                divCell.text(row);
             } else {
                 divCell.addClass('divCellBoard'); 
                 if (col == labirinth.length - 1 && row == labirinth.length - 1) {
